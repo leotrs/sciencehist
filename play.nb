@@ -1,0 +1,299 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      9827,        290]
+NotebookOptionsPosition[      9026,        257]
+NotebookOutlinePosition[      9400,        274]
+CellTagsIndexPosition[      9357,        271]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Description", "Section",
+ CellChangeTimes->{{3.594648903067576*^9, 3.59464890403894*^9}}],
+
+Cell["\<\
+Web page: animation of a world map with scientists' faces appearing \
+geographically located and uttering a quote that summarizes their proposed \
+point of view. Make framework and offer service: input your data (list of \
+scientists, places, dates and quotes) and we animate it instantly!
+To the side of the map put a field where other content may be added, such as \
+a 3D brain region, a picture, etc. Underlying map should reflect political \
+and military events. Subtitle somewhere which designates the current era \
+(industrial revolution, enlightenment, etc).\
+\>", "Text",
+ CellChangeTimes->{{3.594648888092126*^9, 3.594648891912093*^9}, {
+  3.5946498350760603`*^9, 3.594649879763105*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Functions and Data", "Section",
+ CellChangeTimes->{{3.594648921321727*^9, 3.5946489245207663`*^9}, {
+  3.594653723909452*^9, 3.594653725553459*^9}, {3.5946537630252447`*^9, 
+  3.594653765902175*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"world", "=", 
+   RowBox[{"CountryData", "[", 
+    RowBox[{"\"\<World\>\"", ",", "\"\<Polygon\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"points", "[", "_", "]"}], ":=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"text", "[", "_", "]"}], ":=", 
+  RowBox[{"{", "}"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rmax", "=", "0.05"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rmin", "=", "0.01"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.5946517745713987`*^9, 3.5946517882560053`*^9}, {
+  3.594651877580538*^9, 3.59465196129134*^9}, {3.5946521084533987`*^9, 
+  3.594652145461671*^9}, {3.594653334293476*^9, 3.594653334537348*^9}, {
+  3.594653747344853*^9, 3.594653747696155*^9}, {3.594654263987438*^9, 
+  3.594654265374935*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"r", "[", 
+    RowBox[{"start_", ",", "end_", ",", "yr_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"rmax", "-", "rmin"}], ")"}], "/", 
+      RowBox[{"(", 
+       RowBox[{"end", "-", "start"}], ")"}]}], "*", 
+     RowBox[{"(", 
+      RowBox[{"yr", "-", "start"}], ")"}]}], "+", "rmin"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"addPoint", "[", 
+   RowBox[{"start_", ",", "end_", ",", "coords_"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Do", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"points", "[", "yr", "]"}], "=", 
+     RowBox[{"Append", "[", 
+      RowBox[{
+       RowBox[{"points", "[", "yr", "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"PointSize", "[", 
+          RowBox[{"r", "[", 
+           RowBox[{"start", ",", "end", ",", "yr"}], "]"}], "]"}], ",", 
+         RowBox[{"Point", "[", "coords", "]"}]}], "}"}]}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"yr", ",", "start", ",", "end"}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"addText", "[", 
+   RowBox[{"start_", ",", "end_", ",", "string_"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Do", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"text", "[", "yr", "]"}], "=", 
+     RowBox[{"Append", "[", 
+      RowBox[{
+       RowBox[{"text", "[", "yr", "]"}], ",", "string"}], "]"}]}], ",", 
+    RowBox[{"{", 
+     RowBox[{"yr", ",", "start", ",", "end"}], "}"}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"addData", "[", 
+   RowBox[{"yrstart_Integer", ",", 
+    RowBox[{"coords", ":", 
+     RowBox[{"{", 
+      RowBox[{"_", ",", "_"}], "}"}]}], ",", "text_String"}], "]"}], ":=", 
+  "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"yrend", "=", 
+      RowBox[{"yrstart", "+", "5"}]}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"addPoint", "[", 
+      RowBox[{"yrstart", ",", "yrend", ",", "coords"}], "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"addText", "[", 
+      RowBox[{"yrstart", ",", "yrend", ",", "text"}], "]"}]}]}], 
+   "\[IndentingNewLine]", "]"}]}]}], "Input",
+ CellChangeTimes->{{3.5946516212911367`*^9, 3.59465172122048*^9}, {
+  3.594651760186309*^9, 3.594651771843704*^9}, {3.5946521571143303`*^9, 
+  3.5946521580684443`*^9}, {3.5946537489158897`*^9, 3.594653751711034*^9}, {
+  3.5946542528940887`*^9, 3.594654253067967*^9}, {3.594654370114279*^9, 
+  3.594654377031095*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Animate", "Section",
+ CellChangeTimes->{{3.5946537871605167`*^9, 3.5946537876488867`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"animate", "[", "]"}], ":=", 
+  RowBox[{"ListAnimate", "[", "\[IndentingNewLine]", 
+   RowBox[{"Table", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Row", "[", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Column", "[", 
+         RowBox[{
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{"yr", ",", "\[IndentingNewLine]", 
+            RowBox[{"Graphics", "[", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"world", ",", "Red", ",", 
+                RowBox[{"points", "[", "yr", "]"}]}], "}"}], ",", 
+              RowBox[{"ImageSize", "\[Rule]", "Medium"}]}], "]"}]}], "}"}], 
+          ",", "Center"}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"Column", "[", 
+         RowBox[{
+          RowBox[{"text", "[", "yr", "]"}], ",", "Center"}], "]"}]}], "}"}], 
+      "]"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"yr", ",", "2000", ",", "2020"}], "}"}]}], "]"}], 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.5946523024745827`*^9, 3.594652306278204*^9}, {
+  3.5946525066681337`*^9, 3.594652600510542*^9}, {3.594652973334844*^9, 
+  3.594653031266377*^9}, {3.594653085719749*^9, 3.594653086462056*^9}, {
+  3.594653477258174*^9, 3.5946534798886137`*^9}, {3.5946535298322372`*^9, 
+  3.594653536546205*^9}, {3.594654012588846*^9, 3.594654014819479*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Test", "Section",
+ CellChangeTimes->{{3.594653894720006*^9, 3.5946538950321198`*^9}, {
+  3.5946545616213913`*^9, 3.5946545623321323`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"lima", "=", 
+   RowBox[{"Reverse", "@", 
+    RowBox[{"CityData", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"\"\<Lima\>\"", ",", "\"\<Lima\>\"", ",", "\"\<Peru\>\""}], 
+       "}"}], ",", "\"\<Coordinates\>\""}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"london", "=", 
+   RowBox[{"Reverse", "@", 
+    RowBox[{"CityData", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<London\>\"", ",", "\"\<London\>\"", ",", 
+        "\"\<UnitedKingdom\>\""}], "}"}], ",", "\"\<Coordinates\>\""}], 
+     "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"boston", "=", 
+   RowBox[{"Reverse", "@", 
+    RowBox[{"CityData", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<Boston\>\"", ",", "\"\<Massachusetts\>\"", ",", 
+        "\"\<UnitedStates\>\""}], "}"}], ",", "\"\<Coordinates\>\""}], 
+     "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"paris", "=", 
+   RowBox[{"Reverse", "@", 
+    RowBox[{"CityData", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<Paris\>\"", ",", "\"\<IleDeFrance\>\"", ",", "\"\<France\>\""}], 
+       "}"}], ",", "\"\<Coordinates\>\""}], "]"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.594654273872315*^9, 3.5946542805827637`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"addData", "[", 
+   RowBox[{"2004", ",", "paris", ",", "\"\<c'est la vie\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"addData", "[", 
+   RowBox[{"2014", ",", "lima", ",", "\"\<test string please ignore\>\""}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"addData", "[", 
+   RowBox[{"2003", ",", "boston", ",", "\"\<this is text for boston\>\""}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"addData", "[", 
+   RowBox[{"2000", ",", "london", ",", "\"\<london london london\>\""}], 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.594654003015429*^9, 3.594654089271549*^9}, {
+   3.5946541283280973`*^9, 3.59465423090516*^9}, 3.5946542791323347`*^9, {
+   3.594654314838545*^9, 3.594654315240025*^9}, {3.5946543587931232`*^9, 
+   3.5946543623073997`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"animate", "[", "]"}]], "Input",
+ CellChangeTimes->{{3.59465409283409*^9, 3.594654094406644*^9}}]
+}, Open  ]]
+},
+WindowSize->{1364, 741},
+WindowMargins->{{0, Automatic}, {2, Automatic}},
+ShowSelection->True,
+Magnification->1.25,
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (February 21, 2013)",
+StyleDefinitions->"leo.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 95, 1, 108, "Section"],
+Cell[677, 25, 706, 11, 117, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1420, 41, 205, 3, 108, "Section"],
+Cell[1628, 46, 849, 21, 139, "Input"],
+Cell[2480, 69, 2527, 72, 264, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5044, 146, 96, 1, 108, "Section"],
+Cell[5143, 149, 1398, 31, 214, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6578, 185, 144, 2, 108, "Section"],
+Cell[6725, 189, 1309, 39, 114, "Input"],
+Cell[8037, 230, 850, 20, 114, "Input"],
+Cell[8890, 252, 120, 2, 38, "Input"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

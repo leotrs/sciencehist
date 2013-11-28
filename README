@@ -1,0 +1,15 @@
+README
+
+sciencehist is a data visualization framework for the history of science (or technology,
+or ideas).
+
+Virtually every "short history of X" text is a succession of data points consisting of:
+1. a period of time
+2. a place or a person
+3. an idea
+
+The problem with texts like these is that most of the time, some of these events overlap,
+or some important background events are lost (what else was happening in that place at
+that time?).  Thus, written word, being linear, is hardly the best means to expose such
+histories. This is the role that sciencehist will play, by animating dynamic and
+responsive representations of histories of ideas.
